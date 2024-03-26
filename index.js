@@ -1,7 +1,11 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+//app.use(morgan('tiny')) Tarvitseeko tämän erikseen, niin että body käytetään VAIN http POST?
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+morgan.token('body', (request, response) => JSON.stringify(request.body));
 
 let persons = [
 	{
