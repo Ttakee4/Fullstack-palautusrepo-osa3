@@ -30,13 +30,14 @@ let persons = [
 	}
 ]
 
+app.use(express.static('dist'))
+
+const cors = require('cors')
+
+app.use(cors())
+
 app.get('/api/persons', (request, response) => {
 	response.json(persons)
-})
-
-const PORT = 3001
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
 })
 
 app.get('/info', (request, response) => { 
@@ -90,4 +91,9 @@ app.post('/api/persons', (request, response) => {
 	persons = persons.concat(person)
 
 	response.json(person)
+})
+
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })
