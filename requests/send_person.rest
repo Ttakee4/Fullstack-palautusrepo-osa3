@@ -1,4 +1,6 @@
-POST http://localhost:3001/api/persons
+# POST http://localhost:3001/api/persons
+
+POST https://fullstack-palautusrepo-osa3.onrender.com/api/persons
 content-type: application/json
 
 {

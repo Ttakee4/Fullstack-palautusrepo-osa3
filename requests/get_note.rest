@@ -1,1 +1,4 @@
-GET http://localhost:3001/api/persons
+# GET http://localhost:3001/api/persons
+
+GET https://fullstack-palautusrepo-osa3.onrender.com/api/persons
+
