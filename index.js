@@ -77,7 +77,7 @@ const generateId = () => {
 	return randomId+1 //+1 niin ei 0 vaikkei taida olla tarpeellinen (mahdollisuus kuitenkin 1/1000000)
 }
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
 	const body = request.body
 
 	if (!body.name || !body.number) {
