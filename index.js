@@ -1,6 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+
+const Person = require('./models/persons')
 
 app.use(express.json())
 //app.use(morgan('tiny')) Tarvitseeko tämän erikseen, niin että body käytetään VAIN http POST?
@@ -37,7 +40,9 @@ const cors = require('cors')
 app.use(cors())
 
 app.get('/api/persons', (request, response) => {
-	response.json(persons)
+	Person.find({}).then(persons => {
+		response.json(persons)
+	})
 })
 
 app.get('/info', (request, response) => { 
@@ -45,14 +50,9 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-	const id = Number(request.params.id)
-	const person = persons.find(persons => persons.id === id)
-  
-	if (person) {
-	  response.json(person)
-	} else {
-	  response.status(404).end()
-	}
+	Person.findById(request.params.id).then(person => {
+		response.json(person)
+	})
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -82,18 +82,18 @@ app.post('/api/persons', (request, response) => {
 		  })
 	}
 
-	const person = {
-		id: generateId(),
+	const person = new Person({
 		name: body.name,
 		number: body.number
-	}
+	})
 
-	persons = persons.concat(person)
+	person.save().then(savedPerson => {
+		response.json(savedPerson)
+	})
 
-	response.json(person)
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
